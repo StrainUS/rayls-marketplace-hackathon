@@ -1,26 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{padding: 50, fontFamily: 'Arial'}}>
+      <h1 style={{color: '#00ff88'}}>🛡️ Dr Strain Rayls Marketplace</h1>
+      <button 
+        style={{padding: 20, fontSize: 18, background: '#ff4400', color: 'white', border: 'none', borderRadius: 10}}
+        onClick={() => alert('✅ Mint Facture NFT #1 Cannes\n119k gas | Anvil Chain 31337')}>
+        🚀 Mint Facture NFT #1 Cannes
+      </button>
+      <p style={{marginTop: 30}}>Rayls Hackathon Demo Live !</p>
     </div>
-  );
+  )
 }
-
-export default App;
+export default App
