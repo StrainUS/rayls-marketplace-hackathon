@@ -1,18 +1,11 @@
-🛡️ Dr Strain RWA Tokenisation (Défi 1 Rayls)
+🛡️ Dr Strain Frontend
 
-## Confidentialité → Public L1
-1. **Privé** : FactureNFTQuantum \`0x5FbDB2315678afecb367f032d93F642f64180aa3\`
-2. **AI** : Alert conformité mint
-3. **Pont** : React Marketplace L1
-4. **Vente** : NFT Facture Cannes 119k gas
+WalletConnect ✅
+NFT Mint ✅ Orange L1
+RWA Live ✅
 
-## 🚀 LIVE DEMO
-\`\`\`bash
-anvil &
-npm i && npm start
-localhost:3000 → MINT ORANGE !
-\`\`\`
+NFT Backend https://github.com/StrainUS/FactureNFTQuantum
+RLS Token https://github.com/StrainUS/rayls-facture-hackathon-v2
+MVP Foundry https://github.com/StrainUS/rayls-facture-hackathon
 
-**Écosystème** :
-- NFT: https://github.com/StrainUS/FactureNFTQuantum
-- RLS: https://github.com/StrainUS/rayls-facture-hackathon-v2
+npm start
