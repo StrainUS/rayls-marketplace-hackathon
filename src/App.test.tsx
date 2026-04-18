@@ -2,20 +2,18 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders Dr Strain Rayls Marketplace heading', () => {
+test('renders Rayls RWA Marketplace branding', () => {
   render(<App />);
-  const heading = screen.getByText(/Dr Strain Rayls Marketplace/i);
-  expect(heading).toBeInTheDocument();
+  expect(screen.getByText(/Rayls RWA Marketplace/i)).toBeInTheDocument();
 });
 
-test('renders Mint Facture NFT button', () => {
+test('renders Connect Wallet button', () => {
   render(<App />);
-  const button = screen.getByRole('button', { name: /Mint Facture NFT/i });
-  expect(button).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /Connect Wallet/i })).toBeInTheDocument();
 });
 
-test('renders Rayls Hackathon Demo text', () => {
+test('renders EthCC / Rayls hackathon footer', () => {
   render(<App />);
-  const text = screen.getByText(/Rayls Hackathon Demo/i);
-  expect(text).toBeInTheDocument();
+  expect(screen.getByText(/EthCC Cannes 2026/i)).toBeInTheDocument();
+  expect(screen.getByText(/Rayls & LimeChain Hackathon/i)).toBeInTheDocument();
 });

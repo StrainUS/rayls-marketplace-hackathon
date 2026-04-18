@@ -10,6 +10,8 @@
 > **EthCC Cannes 2026 · Rayls & LimeChain Hackathon #2**  
 > Built by [StrainUS (Dr Strain)](https://github.com/StrainUS)
 
+**Same Rayls testnet** as the [RWA protocol demo](https://github.com/StrainUS/rayls-hackathon-rwa-privacy) and the [QuantumShield wallet](https://github.com/StrainUS/quantumshield-rayls) (chain ID **7295799**, RPC `https://testnet-rpc.rayls.com`).
+
 ---
 
 ## What Is This?

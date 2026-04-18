@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import type { CSSProperties } from 'react';
 
 const ASSETS = [
   { id: 1, name: 'Corporate Bond — Orange S.A.', type: 'BOND', notional: '€2,500,000', range: '1M–10M EUR', fractions: 250000, price: '€10.00', yield: '4.2%', status: 'LIVE', kyc: 2, compliance: '✅ MiCA · Basel III' },
@@ -6,6 +7,8 @@ const ASSETS = [
   { id: 3, name: 'Invoice NFT — FactureNFT #42', type: 'INVOICE', notional: '€450,000', range: '200k–1M EUR', fractions: 45000, price: '€10.00', yield: '5.1%', status: 'LIVE', kyc: 1, compliance: '✅ Quantum-proof' },
   { id: 4, name: 'Treasury Bill — BTP France 2027', type: 'GOV BOND', notional: '€5,000,000', range: '1M–10M EUR', fractions: 500000, price: '€10.00', yield: '2.9%', status: 'PENDING', kyc: 3, compliance: '⏳ Review in progress' },
 ];
+
+type Asset = (typeof ASSETS)[number];
 
 const STATS = [
   { label: 'Total Value Locked', value: '€9.75M', sub: 'across 4 RWA assets' },
@@ -15,16 +18,18 @@ const STATS = [
 ];
 
 export default function App() {
-  const [wallet, setWallet] = useState(null);
-  const [buying, setBuying] = useState(null);
-  const [owned, setOwned] = useState({});
+  const [wallet, setWallet] = useState<string | null>(null);
+  const [buying, setBuying] = useState<number | null>(null);
+  const [owned, setOwned] = useState<Record<number, number>>({});
   const [tab, setTab] = useState('market');
 
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        setWallet(accounts[0]);
+        const accounts = (await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        })) as string[];
+        setWallet(accounts[0] ?? null);
       } catch {
         setWallet('0xDrStrain...7295');
       }
@@ -33,7 +38,7 @@ export default function App() {
     }
   };
 
-  const buyFraction = (asset) => {
+  const buyFraction = (asset: Asset) => {
     if (!wallet) { alert('Connect your wallet first'); return; }
     setBuying(asset.id);
     setTimeout(() => {
@@ -49,7 +54,7 @@ export default function App() {
     logo: { display: 'flex', alignItems: 'center', gap: 10, fontWeight: 800, fontSize: 18 },
     badge: { background: 'linear-gradient(135deg,#2B6BD4,#7C3AED)', padding: '4px 12px', borderRadius: 7, fontSize: 13, color: '#fff' },
     nav: { display: 'flex', gap: 4 },
-    navBtn: active => ({ padding: '6px 16px', borderRadius: 7, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 13, fontFamily: 'inherit', background: active ? 'rgba(43,107,212,.15)' : 'transparent', color: active ? '#2B6BD4' : '#8795B5', borderColor: active ? 'rgba(43,107,212,.3)' : 'transparent', borderWidth: 1, borderStyle: 'solid' }),
+    navBtn: (active: boolean) => ({ padding: '6px 16px', borderRadius: 7, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 13, fontFamily: 'inherit', background: active ? 'rgba(43,107,212,.15)' : 'transparent', color: active ? '#2B6BD4' : '#8795B5', borderColor: active ? 'rgba(43,107,212,.3)' : 'transparent', borderWidth: 1, borderStyle: 'solid' }),
     walletBtn: { padding: '8px 18px', background: wallet ? 'rgba(15,155,103,.15)' : '#2B6BD4', color: wallet ? '#0F9B67' : '#fff', border: wallet ? '1px solid rgba(15,155,103,.3)' : 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontSize: 13, fontFamily: 'inherit' },
     main: { maxWidth: 1200, margin: '0 auto', padding: '32px 24px' },
     statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 32 },
@@ -58,13 +63,27 @@ export default function App() {
     statSub: { fontSize: 12, color: '#8795B5' },
     statLabel: { fontSize: 11, color: '#4A5878', textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 8, fontWeight: 700 },
     assetGrid: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 18 },
-    card: status => ({ background: '#0D1228', border: `1px solid ${status === 'LIVE' ? 'rgba(43,107,212,.25)' : 'rgba(120,150,220,.1)'}`, borderRadius: 14, padding: 22, position: 'relative', overflow: 'hidden' }),
-    cardBar: { position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'linear-gradient(to right, #2B6BD4, #0F9B67)' },
-    tag: (c) => ({ display: 'inline-flex', alignItems: 'center', padding: '2px 9px', borderRadius: 20, fontSize: 10, fontWeight: 700, letterSpacing: '.05em', background: `${c}18`, border: `1px solid ${c}44`, color: c }),
+    card: (status: string): CSSProperties => ({
+      background: '#0D1228',
+      border: `1px solid ${status === 'LIVE' ? 'rgba(43,107,212,.25)' : 'rgba(120,150,220,.1)'}`,
+      borderRadius: 14,
+      padding: 22,
+      position: 'relative',
+      overflow: 'hidden',
+    }),
+    cardBar: {
+      position: 'absolute' as const,
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 3,
+      background: 'linear-gradient(to right, #2B6BD4, #0F9B67)',
+    },
+    tag: (c: string) => ({ display: 'inline-flex', alignItems: 'center', padding: '2px 9px', borderRadius: 20, fontSize: 10, fontWeight: 700, letterSpacing: '.05em', background: `${c}18`, border: `1px solid ${c}44`, color: c }),
     row: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
     label: { fontSize: 11, color: '#4A5878', textTransform: 'uppercase', letterSpacing: '.08em' },
     val: { fontWeight: 600, fontSize: 14 },
-    buyBtn: (loading) => ({ width: '100%', padding: '12px', background: loading ? 'rgba(43,107,212,.3)' : '#2B6BD4', color: '#fff', border: 'none', borderRadius: 9, cursor: loading ? 'wait' : 'pointer', fontWeight: 700, fontSize: 14, fontFamily: 'inherit', marginTop: 16, transition: 'all .15s' }),
+    buyBtn: (loading: boolean) => ({ width: '100%', padding: '12px', background: loading ? 'rgba(43,107,212,.3)' : '#2B6BD4', color: '#fff', border: 'none', borderRadius: 9, cursor: loading ? 'wait' : 'pointer', fontWeight: 700, fontSize: 14, fontFamily: 'inherit', marginTop: 16, transition: 'all .15s' }),
     ownedBadge: { background: 'rgba(15,155,103,.15)', border: '1px solid rgba(15,155,103,.3)', borderRadius: 6, padding: '3px 10px', fontSize: 11, color: '#0F9B67', fontWeight: 700 },
     sectionTitle: { fontSize: 13, fontWeight: 700, color: '#8795B5', textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 16 },
   };
@@ -183,7 +202,7 @@ export default function App() {
                 ))}
                 <div style={{ background: 'rgba(43,107,212,.08)', border: '1px solid rgba(43,107,212,.25)', borderRadius: 10, padding: '14px 18px', display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontWeight: 700 }}>Total Portfolio Value</span>
-                  <span style={{ color: '#2B6BD4', fontWeight: 900, fontSize: 18 }}>€{Object.entries(owned).reduce((acc, [id, qty]) => acc + qty * 10, 0).toFixed(2)}</span>
+                  <span style={{ color: '#2B6BD4', fontWeight: 900, fontSize: 18 }}>€{Object.entries(owned).reduce((acc, [id, qty]) => acc + Number(qty) * 10, 0).toFixed(2)}</span>
                 </div>
               </div>
             )}
